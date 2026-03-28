@@ -138,9 +138,8 @@ app.post("/upload", auth, async (req, res) => {
 });
 
 // ================= GET NOTES =================
-app.get("/notes", async (req, res) => {
-  const notes = await Note.find({ isApproved: true })
-                          .sort({ createdAt: -1 });
+app.get("/api/notes", async (req, res) => {
+  const notes = await Note.find().sort({ createdAt: -1 });
 
   res.json(notes);
 });
