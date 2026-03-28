@@ -9,7 +9,7 @@ const app = express();
 const passport = require("passport");
 const session = require("express-session");
 app.use(cors({
-  origin: "http://localhost:5500",
+  origin: "*",
   credentials: true
 }));
 app.use(express.json());
@@ -23,11 +23,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
+console.log("MONGO_URI:", process.env.MONGO_URI);
 // ================= DATABASE =================
-mongoose.connect("mongodb://127.0.0.1:27017/enginotes")
-.then(()=>console.log("MongoDB connected"))
-.catch(err=>console.log(err));
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
 
 // ================= MODELS =================
 const Note = require("./models/Note");
@@ -35,7 +35,7 @@ const User = require("./models/User");
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:5000/auth/google/callback"
+  callbackURL: "https://enginotes-backend.onrender.com/auth/google/callback"
 },
 async (accessToken, refreshToken, profile, done) => {
 
@@ -169,7 +169,7 @@ app.get("/auth/google/callback",
     );
 
     // redirect to frontend
-    res.redirect("http://localhost:5500/index.html?token=" + token);
+    res.redirect("http://127.0.0.1:5500/index.html?token=" + token);
   }
 );
 // ================= GET SINGLE NOTE =================
@@ -197,6 +197,8 @@ app.get("/my-notes", auth, async (req, res) => {
   res.json(notes);
 });
 // ================= START SERVER =================
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
 });
