@@ -9,7 +9,7 @@ const app = express();
 const passport = require("passport");
 const session = require("express-session");
 app.use(cors({
-  origin: "*",
+  origin: "https://enginotes.in",
   credentials: true
 }));
 app.use(express.json());
@@ -168,7 +168,7 @@ app.get("/auth/google/callback",
     );
 
     // redirect to frontend
-    res.redirect("http://enginotes.in/index.html?token=" + token);
+    res.redirect("https://enginotes.in/index.html?token=" + token);
   }
 );
 // ================= GET SINGLE NOTE =================
