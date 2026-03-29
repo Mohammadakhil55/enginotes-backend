@@ -168,7 +168,7 @@ app.get("/auth/google/callback",
     );
 
     // redirect to frontend
-    res.redirect("http://127.0.0.1:5500/index.html?token=" + token);
+    res.redirect("http://enginotes.in/index.html?token=" + token);
   }
 );
 // ================= GET SINGLE NOTE =================
