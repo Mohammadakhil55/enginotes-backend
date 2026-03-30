@@ -9,7 +9,7 @@ const app = express();
 const passport = require("passport");
 const session = require("express-session");
 app.use(cors({
-  origin: [ "https://enginotes.in", "http://www.enginotes.in" ],
+  origin: [ "https://enginotes.in", "https://www.enginotes.in" ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
