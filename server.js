@@ -9,13 +9,12 @@ const app = express();
 const passport = require("passport");
 const session = require("express-session");
 app.use(cors({
-  origin: ["https://enginotes.in",
-    "https://www.enginotes.in"
-  ],
+  origin: [ "https://enginotes.in", "http://www.enginotes.in" ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+app.options("*", cors());
 app.use(express.json());
 app.use(session({
   secret: "secretkey",
@@ -63,15 +62,20 @@ passport.deserializeUser((id, done) => done(null, { id }));
 
 // ================= AUTH MIDDLEWARE =================
 function auth(req, res, next) {
-  const token = req.headers.authorization;
+  const authHeader = req.headers.authorization;
 
-  if (!token) return res.status(401).send("Login required");
+  if (!authHeader) {
+    return res.status(401).send("Login required");
+  }
+
+  const token = authHeader.split(" ")[1]; // ✅ extract token
 
   try {
     const verified = jwt.verify(token, "secretkey123");
     req.user = verified;
     next();
-  } catch {
+  } catch (err) {
+    console.log("JWT ERROR:", err.message);
     res.status(400).send("Invalid token");
   }
 }
