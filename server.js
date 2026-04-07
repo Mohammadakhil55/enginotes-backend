@@ -202,6 +202,39 @@ app.get("/my-notes", auth, async (req, res) => {
                           .sort({ createdAt: -1 });
   res.json(notes);
 });
+// ================= DYNAMIC SITEMAP =================
+app.get("/sitemap.xml", async (req, res) => {
+  try {
+    const notes = await Note.find();
+
+    const urls = notes.map(note => `
+      <url>
+        <loc>https://enginotes.in/note.html?id=${note._id}</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+      </url>
+    `).join("");
+
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+      <url>
+        <loc>https://enginotes.in/</loc>
+        <priority>1.0</priority>
+      </url>
+
+      ${urls}
+
+    </urlset>`;
+
+    res.header("Content-Type", "application/xml");
+    res.send(sitemap);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error generating sitemap");
+  }
+});
 // ================= START SERVER =================
 const PORT = process.env.PORT || 5000;
 
