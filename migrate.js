@@ -383,7 +383,7 @@ async function migrate() {
   branch: "CSE",
   semester: 4,
   link: "https://drive.google.com/file/d/1lk_JMAbR3-V0FyIosyM_0xWHfJBIiZn5/view",
-  downloads: 29,
+  downloads: 2900,
   isApproved: true,
   uploadedBy: "mohammadakhil00@gmail.com"
 },
@@ -394,7 +394,7 @@ async function migrate() {
   branch: "MECH",
   semester: 0,
   link: "https://drive.google.com/file/d/1Cfm6ewAIdYlpq_zzbhOdzM7yzy2oHb9g/view",
-  downloads: 5,
+  downloads: 5000,
   isApproved: true,
   uploadedBy: "mohammadakhil00@gmail.com"
 }
