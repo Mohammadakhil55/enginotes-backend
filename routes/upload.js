@@ -50,28 +50,78 @@ router.post("/", upload.single("pdf"), async (req, res) => {
   try {
 
     const {
-      title,
-      subject,
-      branch,
-      semester,
-      description
-    } = req.body;
+  title,
+  subject,
+  branch,
+  semester,
+  description,
+  uploadType,
+  link
+} = req.body;
 
-    const note = new Note({
+    const noteData = {
 
-      title,
-      subject,
-      branch,
-      semester,
-      description,
+title,
+subject,
+branch,
+semester,
+description,
 
-      pdf: req.file.path,
+pages:0,
 
-      pages: 0,
+approved:true
 
-      approved: true
+};
 
-    });
+if(uploadType==="pdf"){
+
+if(!req.file){
+
+return res.status(400).json({
+
+success:false,
+
+message:"PDF not uploaded"
+
+});
+
+}
+
+noteData.pdf=req.file.path;
+
+}
+
+else if(uploadType==="drive"){
+
+if(!link || !link.startsWith("https://drive.google.com/")){
+
+return res.status(400).json({
+
+success:false,
+
+message:"Invalid Google Drive Link"
+
+});
+
+}
+
+noteData.link=link;
+
+}
+
+else{
+
+return res.status(400).json({
+
+success:false,
+
+message:"Invalid upload type"
+
+});
+
+}
+
+const note=new Note(noteData);
 
     await note.save();
    console.log("Saved Note ID:", note._id);
