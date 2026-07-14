@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const { v2: cloudinary } = require("cloudinary");
+const mongoose = require("mongoose");
 const Note = require("../models/Note");
 
 const router = express.Router();
@@ -71,6 +72,9 @@ router.post("/", upload.single("pdf"), async (req, res) => {
     });
 
     await note.save();
+   console.log("Saved Note ID:", note._id);
+console.log("Database:", mongoose.connection.name);
+console.log("Saved Note:", note);
 
     res.json({
       success: true,
