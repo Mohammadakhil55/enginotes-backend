@@ -18,12 +18,14 @@ cloudinary.config({
 /* Storage */
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
+  cloudinary,
+  params: async (req, file) => ({
     folder: "enginotes-pdfs",
     resource_type: "raw",
+    type: "upload",
+    access_mode: "public",
     format: "pdf"
-  }
+  })
 });
 
 /* Multer */
