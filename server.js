@@ -5,6 +5,7 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const uploadRoute = require("./routes/upload");
 const app = express();
 const passport = require("passport");
 const session = require("express-session");
@@ -15,6 +16,10 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+app.use("/uploads",express.static("uploads"));
+
+app.use("/api/upload",uploadRoute);
+
 app.use(session({
   secret: "secretkey",
   resave: false,
