@@ -67,7 +67,7 @@ router.post("/", upload.single("pdf"), async (req, res) => {
 
       pages: 0,
 
-      approved: false
+      approved: true
 
     });
 
